@@ -63,8 +63,18 @@ const UI = {
                 <tbody>
         `;
 
-        // Renderizamos las pelis usando las variables exactas que escupió Strapi
-        movies.forEach((movie, index) => {
+        // Diccionario local de géneros TMDB para traducción inmediata
+        const TMDB_GENRES = {
+            28: "Acción", 12: "Aventura", 16: "Animación", 35: "Comedia", 80: "Crimen", 99: "Documental", 
+            18: "Drama", 10751: "Familia", 14: "Fantasía", 36: "Historia", 27: "Terror", 10402: "Música", 
+            9648: "Misterio", 10749: "Romance", 878: "Ciencia Ficción", 10770: "Película de TV", 
+            53: "Suspense", 10752: "Bélica", 37: "Western"
+        };
+
+        // Invertimos el array para que los registros más nuevos (con texto) salgan arriba
+        const peliculasOrdenadas = [...movies].reverse();
+
+        peliculasOrdenadas.forEach((movie, index) => {
             const delay = index * 0.1;
             
             // Calculamos color de la chapita según promedioVotos
@@ -77,11 +87,17 @@ const UI = {
                 icon = 'ph-star-fill';
             }
             
+            // Forzamos traducción inmediata si la API trae números
+            let generosParseados = movie.generos || 'Varios';
+            if (generosParseados.match(/\d+/)) {
+                generosParseados = generosParseados.split(',').map(id => TMDB_GENRES[id.trim()] || id.trim()).join(', ');
+            }
+            
             html += `
                 <tr class="animate-in" style="animation-delay: ${delay}s; opacity: 0;">
                     <td style="color: var(--text-secondary);">STR-${movie.id}</td>
                     <td style="font-weight: 700;">${movie.titulo || 'Sin nombre'}</td>
-                    <td><span class="badge" style="background:#e2e8f0; color:#475569;">${movie.generos || 'Varios'}</span></td>
+                    <td><span class="badge" style="background:#e2e8f0; color:#475569;">${generosParseados}</span></td>
                     <td>
                         <span class="status-badge ${badgeClass}">
                             <i class="ph ${icon}"></i> ${score.toFixed(1)}
@@ -103,5 +119,10 @@ const UI = {
     showDataContainer() {
         document.getElementById('welcome-state').classList.add('hidden');
         document.getElementById('data-container').classList.remove('hidden');
+    },
+
+    showWelcomeState() {
+        document.getElementById('welcome-state').classList.remove('hidden');
+        document.getElementById('data-container').classList.add('hidden');
     }
 };

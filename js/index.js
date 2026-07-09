@@ -9,10 +9,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // Capturamos los botones del menu lateral
     const btnLoad = document.getElementById('btn-load-data');
     const btnView = document.getElementById('btn-view-data');
+    const btnHome = document.getElementById('btn-home');
+
+    const irAlInicio = () => {
+        UI.showWelcomeState();
+        document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+    };
+
+    if(btnHome) btnHome.addEventListener('click', irAlInicio);
 
     // Guardamos el texto original para volver a ponerlo despues del "Cargando..."
     const btnLoadOriginalHTML = btnLoad.innerHTML;
     const btnViewOriginalHTML = btnView.innerHTML;
+
+    // Estado local para evitar visualizar sin cargar
+    let datosCargados = false;
 
     // EVENTO 1: Cuando el usuario aprieta "Cargar datos"
     btnLoad.addEventListener('click', async () => {
@@ -20,9 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
         UI.showLoadingState('btn-load-data', btnLoadOriginalHTML);
         
         try {
-            // Llamamos al servicio (que ahora usa mocks, despues usara Strapi)
+            // Llamamos al servicio
             const response = await ApiService.cargarDatos();
-            alert("✅ ¡Sincronización Exitosa!\nDatos cargados correctamente."); 
+            datosCargados = true;
+            alert("✅ ¡Sincronización Exitosa!\nDatos cargados correctamente. Ahora puedes visualizarlos."); 
         } catch (error) {
             console.error(error);
             alert("❌ Error en la sincronización");
@@ -34,6 +46,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // EVENTO 2: Cuando el usuario aprieta "Visualizar datos"
     btnView.addEventListener('click', async () => {
+        if (!datosCargados) {
+            alert("⚠️ ¡Acción Requerida!\nPor favor, presiona el botón 'Cargar datos de APIs' antes de visualizar el panel.");
+            return;
+        }
+
         // Ponemos el boton a girar
         UI.showLoadingState('btn-view-data', btnViewOriginalHTML);
         

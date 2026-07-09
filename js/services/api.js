@@ -35,14 +35,33 @@ const ApiService = {
 
             const datos = await respuesta.json();
             const las10Peliculas = datos.results.slice(0, 10); 
+            
+            // 2. Buscamos el diccionario de géneros para traducir los números a texto
+            const urlGeneros = 'https://api.themoviedb.org/3/genre/movie/list?language=es-ES';
+            const resGeneros = await fetch(urlGeneros, {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${TMDB_API_KEY}`, 'accept': 'application/json' }
+            });
+            const datosGeneros = await resGeneros.json();
+            
+            // Creamos un diccionario { 28: "Acción", 35: "Comedia" }
+            const diccionarioGeneros = {};
+            if (datosGeneros.genres) {
+                datosGeneros.genres.forEach(g => {
+                    diccionarioGeneros[g.id] = g.name;
+                });
+            }
 
             // Hacemos el POST a Strapi una por una
             for (const p of las10Peliculas) {
+                // Mapeamos los IDs a texto usando el diccionario
+                const generosTexto = p.genre_ids.map(id => diccionarioGeneros[id] || id).join(', ');
+
                 const estructuraStrapi = {
                     data: {
                         titulo: p.title,
                         sinopsis: p.overview || "Sin sinopsis disponible.",
-                        generos: p.genre_ids.join(', '), 
+                        generos: generosTexto, 
                         cantidadVotos: p.vote_count,
                         promedioVotos: parseFloat(p.vote_average.toFixed(1))
                     }
