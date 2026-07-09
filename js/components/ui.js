@@ -2,15 +2,13 @@
  * Funciones relacionadas con la manipulación del DOM y la UI del SaaS.
  */
 
-export const UI = {
+const UI = {
     showLoadingState(buttonId, originalHTML) {
         const btn = document.getElementById(buttonId);
         if(btn) {
             btn.disabled = true;
-            // Animación de carga usando icono Phosphor girando
             btn.innerHTML = `<i class="ph ph-spinner-gap" style="animation: spin 1s linear infinite;"></i><span>Procesando...</span>`;
             
-            // Inyectamos estilo de rotación temporal si no existe
             if(!document.getElementById('spin-style')) {
                 const style = document.createElement('style');
                 style.id = 'spin-style';
@@ -31,23 +29,23 @@ export const UI = {
     updateKPIs(movies) {
         if (!movies || movies.length === 0) return;
 
-        // Total Películas
+        // Total Películas en Strapi
         document.getElementById('kpi-total').innerText = movies.length;
 
-        // Promedio de Puntaje
-        const avg = movies.reduce((acc, curr) => acc + curr.vote_average, 0) / movies.length;
+        // Promedio de Puntaje de toda la BD
+        const avg = movies.reduce((acc, curr) => acc + (curr.promedioVotos || 0), 0) / movies.length;
         document.getElementById('kpi-avg').innerText = avg.toFixed(1);
 
-        // Película Más Popular
-        const mostPopular = movies.reduce((prev, current) => (prev.popularity > current.popularity) ? prev : current);
-        document.getElementById('kpi-pop').innerText = mostPopular.title;
+        // Película Más Votada (Usamos cantidadVotos porque Strapi no guardó popularidad)
+        const mostPopular = movies.reduce((prev, current) => ((prev.cantidadVotos || 0) > (current.cantidadVotos || 0)) ? prev : current);
+        document.getElementById('kpi-pop').innerText = mostPopular.titulo || "Desconocida";
     },
 
     renderTable(movies) {
         const container = document.getElementById('table-container');
         
         if (!movies || movies.length === 0) {
-            container.innerHTML = '<p style="color: var(--text-secondary);">No hay datos para mostrar.</p>';
+            container.innerHTML = '<p style="color: var(--text-secondary);">No hay datos en Strapi para mostrar.</p>';
             return;
         }
 
@@ -55,38 +53,41 @@ export const UI = {
             <table class="styled-table">
                 <thead>
                     <tr>
-                        <th># ID</th>
+                        <th># ID Strapi</th>
                         <th>Título</th>
-                        <th>Año</th>
+                        <th>Géneros</th>
                         <th>Calificación</th>
-                        <th>Popularidad</th>
+                        <th>Total Votos</th>
                     </tr>
                 </thead>
                 <tbody>
         `;
 
+        // Renderizamos las pelis usando las variables exactas que escupió Strapi
         movies.forEach((movie, index) => {
             const delay = index * 0.1;
             
-            // Lógica para badge de color según calificación
+            // Calculamos color de la chapita según promedioVotos
+            const score = movie.promedioVotos || 0;
             let badgeClass = 'medium';
             let icon = 'ph-star-half';
-            if (movie.vote_average >= 8.5) {
+            
+            if (score >= 8.0) {
                 badgeClass = 'high';
                 icon = 'ph-star-fill';
             }
             
             html += `
                 <tr class="animate-in" style="animation-delay: ${delay}s; opacity: 0;">
-                    <td style="color: var(--text-secondary);">#${movie.id}</td>
-                    <td style="font-weight: 700;">${movie.title}</td>
-                    <td>${movie.year}</td>
+                    <td style="color: var(--text-secondary);">STR-${movie.id}</td>
+                    <td style="font-weight: 700;">${movie.titulo || 'Sin nombre'}</td>
+                    <td><span class="badge" style="background:#e2e8f0; color:#475569;">${movie.generos || 'Varios'}</span></td>
                     <td>
                         <span class="status-badge ${badgeClass}">
-                            <i class="ph ${icon}"></i> ${movie.vote_average}
+                            <i class="ph ${icon}"></i> ${score.toFixed(1)}
                         </span>
                     </td>
-                    <td><i class="ph ph-trend-up" style="color: var(--text-secondary); margin-right:4px;"></i> ${movie.popularity}</td>
+                    <td><i class="ph ph-users" style="color: var(--text-secondary); margin-right:4px;"></i> ${movie.cantidadVotos || 0}</td>
                 </tr>
             `;
         });
@@ -100,9 +101,7 @@ export const UI = {
     },
 
     showDataContainer() {
-        // Ocultar banner de bienvenida
         document.getElementById('welcome-state').classList.add('hidden');
-        // Mostrar contenedor de datos
         document.getElementById('data-container').classList.remove('hidden');
     }
 };

@@ -1,5 +1,4 @@
-import { ApiService } from './services/api.js';
-import { UI } from './components/ui.js';
+// Scripts cargados globalmente desde index.html
 
 /**
  * ARCHIVO PRINCIPAL DE JAVASCRIPT

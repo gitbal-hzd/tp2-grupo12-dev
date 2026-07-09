@@ -73,13 +73,6 @@
                     <!-- Titulo obligatorio por la cátedra -->
                     <h1>TP Nro 2 <span class="badge">Grupo 12</span></h1>
                 </div>
-                <div class="topbar-right">
-                    <div class="search-box">
-                        <i class="ph ph-magnifying-glass"></i>
-                        <input type="text" placeholder="Buscar películas..." disabled>
-                    </div>
-                    <button class="icon-btn"><i class="ph ph-bell"></i></button>
-                </div>
             </header>
 
             <!-- Zona dinámica donde cargan las cosas -->
@@ -174,7 +167,9 @@
         </div>
     </div>
 
-    <!-- Carga del JS principal -->
-    <script type="module" src="./js/index.js"></script>
+    <!-- Carga de JS en orden para que funcionen localmente sin servidor -->
+    <script src="./js/services/api.js"></script>
+    <script src="./js/components/ui.js"></script>
+    <script src="./js/index.js"></script>
 </body>
 </html>
