@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP Nro 2 - Dashboard Premium</title>
+    
+    <!-- Fuentes de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Iconos vectoriales -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Hojas de estilo -->
+    <link rel="stylesheet" href="./css/variables.css">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/layout.css">
+    <link rel="stylesheet" href="./css/components.css">
+</head>
+<body>
+    <!-- Contenedor principal de la app -->
+    <div class="app-layout">
+        
+        <!-- ============================================== -->
+        <!-- MENU LATERAL (SIDEBAR) -->
+        <!-- ============================================== -->
+        <aside class="sidebar">
+            <!-- Titulo y Logo -->
+            <div class="sidebar-header" id="btn-home" style="cursor: pointer;">
+                <i class="ph-fill ph-planet" style="color: var(--primary); font-size: 2rem;"></i>
+                <h2>Grupo 12</h2>
+            </div>
+            
+            <div class="sidebar-menu-section">
+                <p class="menu-label">Acciones Principales</p>
+                <nav class="sidebar-nav">
+                    <!-- ATENCION INTEGRANTES: Aquí van los botones que piden los profes -->
+                    <button id="btn-load-data" class="nav-item">
+                        <i class="ph ph-cloud-arrow-down"></i>
+                        <span>Cargar datos de APIs</span>
+                    </button>
+                    <!-- Boton 2: Trae los datos de Strapi a la pantalla (Responsabilidad Int. 3) -->
+                    <button id="btn-view-data" class="nav-item">
+                        <i class="ph ph-chart-line-up"></i>
+                        <span>Visualizar datos</span>
+                    </button>
+                </nav>
+            </div>
+            
+        </aside>
+
+        <!-- ============================================== -->
+        <!-- AREA PRINCIPAL (DERECHA) -->
+        <!-- ============================================== -->
+        <div class="main-wrapper">
+            
+            <!-- Cabecera / Topbar -->
+            <header class="topbar">
+                <div class="topbar-left" style="width: 100%; text-align: center; display: flex; justify-content: center;">
+                    <!-- Titulo obligatorio por la cátedra -->
+                    <h1>TP Numero 2 <span class="badge">Grupo 12</span></h1>
+                </div>
+            </header>
+
+            <!-- Zona dinámica donde cargan las cosas -->
+            <main class="content-area">
+                
+                <!-- Pantalla de inicio antes de tocar los botones -->
+                <div id="welcome-state" class="welcome-banner mesh-gradient-primary">
+                    <div class="banner-content">
+                        <h2>Panel de Control - Grupo 12</h2>
+                        <p>Gestor de información de películas obtenidas vía TMDB y almacenadas en Strapi.</p>
+                        
+                        <div style="margin-top: 1.5rem; margin-bottom: 1.5rem; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 12px;">
+                            <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; opacity: 0.9;">Integrantes:</h3>
+                            <ul style="list-style-type: none; padding-left: 0; font-size: 0.95rem; opacity: 0.85; line-height: 1.6;">
+                                <li>• Leandro Sesin (20766)</li>
+                                <li>• Cristian Hrynkiewicz (33112)</li>
+                                <li>• Baltazar Martinez (33242)</li>
+                                <li>• Machaca Denise (32549)</li>
+                                <li>• Rey Lautaro (34321)</li>
+                            </ul>
+                        </div>
+
+                        <!-- Boton estetico que dispara el de cargar -->
+                        <button class="btn btn-white mt-4" onclick="document.getElementById('btn-load-data').click()">
+                            Cargar datos ahora <i class="ph ph-arrow-right"></i>
+                        </button>
+                    </div>
+                    <div class="banner-illustration">
+                        <i class="ph-fill ph-users-three"></i>
+                    </div>
+                </div>
+
+                <!-- ============================================== -->
+                <!-- CONTENEDOR DE DATOS (Se muestra al hacer click en Visualizar) -->
+                <!-- ============================================== -->
+                <div id="data-container" class="data-container hidden">
+                    
+                    <!-- Tarjetitas de Resumen (Calculadas por JS) -->
+                    <div class="kpi-grid">
+                        <div class="card kpi-card">
+                            <div class="kpi-icon mesh-gradient-secondary"><i class="ph ph-film-slate"></i></div>
+                            <div class="kpi-data">
+                                <h3>Total Películas</h3>
+                                <p id="kpi-total" class="value">0</p>
+                            </div>
+                        </div>
+                        <div class="card kpi-card">
+                            <div class="kpi-icon mesh-gradient-tertiary"><i class="ph ph-star"></i></div>
+                            <div class="kpi-data">
+                                <h3>Puntaje Promedio</h3>
+                                <p id="kpi-avg" class="value">0.0</p>
+                            </div>
+                        </div>
+                        <div class="card kpi-card">
+                            <div class="kpi-icon mesh-gradient-primary"><i class="ph ph-trend-up"></i></div>
+                            <div class="kpi-data">
+                                <h3>Más Popular</h3>
+                                <p id="kpi-pop" class="value">-</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="data-grid">
+                        
+                        <!-- TABLA: Aqui van los datos de Strapi -->
+                        <div class="card table-card">
+                            <div class="card-header">
+                                <h2>Directorio de Películas</h2>
+                                <button class="icon-btn"><i class="ph ph-dots-three-outline-vertical"></i></button>
+                            </div>
+                            <div class="card-body">
+                                <div id="table-container" class="table-responsive">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- GRAFICO: Contenedor para Chart.js -->
+                        <div class="card chart-card">
+                            <div class="card-header">
+                                <h2>Análisis Visual</h2>
+                            </div>
+                            <div class="card-body chart-body">
+                                <!-- ATENCION INTEGRANTE 3: Instancia tu grafico aca adentro -->
+                                <div id="chart-container" class="chart-placeholder">
+                                    <div class="placeholder-content">
+                                        <i class="ph-duotone ph-chart-bar"></i>
+                                        <p>Gráfico pendiente</p>
+                                        <span>Espacio reservado para el Integrante 3</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </main>
+            
+            <!-- Footer obligatorio por los lineamientos -->
+            <footer class="app-footer">
+                <p>TygWeb 2026 - Universidad Tecnológica Nacional FRLP</p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Carga de JS en orden para que funcionen localmente sin servidor -->
+    <script src="./js/services/api.js"></script>
+    <script src="./js/components/ui.js"></script>
+    <script src="./js/index.js"></script>
+</body>
+</html>
