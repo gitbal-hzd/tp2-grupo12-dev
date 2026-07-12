@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Actualizamos las tarjetas de estadísticas (KPIs) y la tabla con los datos normalizados
                 UI.updateKPIs(listaPeliculas);
                 UI.renderTable(listaPeliculas);
+				UI.renderChart(listaPeliculas);
                 
                 // Si la base de datos está vacía, avisamos amablemente sin romper nada
                 if (listaPeliculas.length === 0) {

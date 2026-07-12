@@ -104,6 +104,50 @@ const UI = {
 
         container.innerHTML = html;
     },
+	    // --- FUNCIÓN PARA DIBUJAR EL GRÁFICO ---
+    renderChart(movies) {
+        const container = document.getElementById('chart-container');
+        if (!container) return;
+
+        // Limpiamos el placeholder y creamos el canvas
+        container.innerHTML = '<canvas id="myChart" style="max-height:250px; max-width:100%;"></canvas>';
+
+        // Tomamos los primeros 10 títulos y sus promedios de votos
+        const labels = movies.map(m => m.titulo || 'Sin título').slice(0, 10);
+        const data = movies.map(m => m.promedioVotos || 0).slice(0, 10);
+
+        // Dibujamos el gráfico de barras
+        new Chart(document.getElementById('myChart'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Promedio de Votos',
+                    data: data,
+                    backgroundColor: 'rgba(79, 70, 229, 0.7)',
+                    borderColor: '#4f46e5',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { 
+                        beginAtZero: true,
+                        title: { display: true, text: 'Puntaje' }
+                    },
+                    x: {
+                        ticks: { maxRotation: 45, minRotation: 30 }
+                    }
+                }
+            }
+        });
+    },
+    // --- FIN DE LA FUNCIÓN ---
 
     showDataContainer() {
         document.getElementById('welcome-state').classList.add('hidden');
@@ -114,4 +158,5 @@ const UI = {
         document.getElementById('welcome-state').classList.remove('hidden');
         document.getElementById('data-container').classList.add('hidden');
     }
+	
 };
