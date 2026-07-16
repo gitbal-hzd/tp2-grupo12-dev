@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await ApiService.cargarDatos();
             alert(`✅ Sincronización finalizada:\n${response.message}`); 
             
-            // Opcional y recomendado: Auto-clickear visualizar para mostrar los cambios al instante
+            // Auto-clickear visualizar para mostrar los cambios al instante
             btnView.click();
         } catch (error) {
             console.error(error);
@@ -57,9 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 UI.renderTable(listaPeliculas);
 				UI.renderChart(listaPeliculas);
                 
-                // Si la base de datos está vacía, avisamos amablemente sin romper nada
+                // Si la base de datos está vacía, avisamos sin romper nada
                 if (listaPeliculas.length === 0) {
-                    alert("ℹ️ El panel se abrió correctamente, pero tu base de datos en Strapi está vacía. Presiona 'Cargar datos de APIs' para poblarla.");
+                    alert("ℹ️ El panel se abrió correctamente, pero tu base de datos en Strapi está vacía. Presiona 'Cargar datos de APIs' para llenarla.");
                 }
             }
         } catch (error) {
