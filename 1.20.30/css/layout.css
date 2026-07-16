@@ -17,7 +17,27 @@
 }
 
 .sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
     margin-bottom: 3rem;
+    border-radius: 14px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.sidebar-header i {
+    font-size: 1.35rem;
+    color: var(--primary);
+}
+
+.sidebar-header:hover {
+    background-color: #eef2ff;
+    transform: translateX(3px);
 }
 
 .logo {

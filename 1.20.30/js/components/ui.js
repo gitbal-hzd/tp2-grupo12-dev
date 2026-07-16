@@ -54,6 +54,7 @@ const UI = {
                 <thead>
                     <tr>
                         <th>Título</th>
+                        <th>Fecha de estreno</th>
                         <th>Géneros</th>
                         <th>Calificación</th>
                         <th>Total Votos</th>
@@ -86,6 +87,7 @@ const UI = {
             html += `
                 <tr class="animate-in" style="animation-delay: ${delay}s; opacity: 0;">
                     <td style="font-weight: 700;">${movie.titulo || 'Sin nombre'}</td>
+                    <td>${movie.fechaEstreno ? movie.fechaEstreno.split('-').reverse().join('/') : 'Sin fecha'}</td>
                     <td><span class="badge" style="background:#e2e8f0; color:#475569;">${movie.generos || 'Varios'}</span></td>
                     <td>
                         <span class="status-badge ${badgeClass}">
@@ -147,7 +149,6 @@ const UI = {
             }
         });
     },
-    // --- FIN DE LA FUNCIÓN ---
 
     showDataContainer() {
         document.getElementById('welcome-state').classList.add('hidden');

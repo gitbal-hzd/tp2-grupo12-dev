@@ -15,7 +15,7 @@ const headersStrapi = {
 const ApiService = {
     
     /**
-     Consumir TMDB y guardar en Strapi (Validando por IdPelicula)
+    Consumir TMDB y guardar en Strapi (Validando por IdPelicula)
      */
     async cargarDatos() {
         try {
@@ -81,10 +81,11 @@ const ApiService = {
                     data: {
                         titulo: p.title,
                         sinopsis: p.overview || "Sin sinopsis disponible.",
-                        generos: generosTexto, 
+                        generos: generosTexto,
                         cantidadVotos: p.vote_count,
                         promedioVotos: parseFloat(p.vote_average.toFixed(1)),
-                        IdPelicula: p.id // Almacenamos el ID numérico de TMDB en tu columna de Strapi
+                        IdPelicula: p.id,
+                        fechaEstreno: p.release_date || null
                     }
                 };
 
@@ -131,12 +132,14 @@ const ApiService = {
                 const c = item.attributes || item;
                 return {
                     id: item.id,
+                    documentId: item.documentId,
                     titulo: c.titulo || 'Sin nombre',
                     sinopsis: c.sinopsis || '',
                     generos: c.generos || 'Varios',
                     cantidadVotos: parseInt(c.cantidadVotos) || 0,
                     promedioVotos: parseFloat(c.promedioVotos) || 0.0,
-                    IdPelicula: c.IdPelicula
+                    IdPelicula: c.IdPelicula,
+                    fechaEstreno: c.fechaEstreno || null
                 };
             });
 
