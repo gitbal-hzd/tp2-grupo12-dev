@@ -107,49 +107,182 @@ const UI = {
         container.innerHTML = html;
     },
 	    // --- FUNCIÓN PARA DIBUJAR EL GRÁFICO ---
-    renderChart(movies) {
-        const container = document.getElementById('chart-container');
-        if (!container) return;
+renderChart(movies) {
+    const container = document.getElementById('chart-container');
 
-        // Limpiamos el placeholder y creamos el canvas
-        container.innerHTML = '<canvas id="myChart" style="max-height:250px; max-width:100%;"></canvas>';
+    if (!container) {
+        return;
+    }
 
-        // Tomamos los primeros 10 títulos y sus promedios de votos
-        const labels = movies.map(m => m.titulo || 'Sin título').slice(0, 10);
-        const data = movies.map(m => m.promedioVotos || 0).slice(0, 10);
+    // Creamos el canvas del gráfico de promedios
+    container.innerHTML = `
+        <canvas id="myChart"></canvas>
+    `;
 
-        // Dibujamos el gráfico de barras
-        new Chart(document.getElementById('myChart'), {
+    const labels = movies
+        .map(movie => movie.titulo || 'Sin título')
+        .slice(0, 10);
+
+    const data = movies
+        .map(movie => movie.promedioVotos || 0)
+        .slice(0, 10);
+
+    new Chart(document.getElementById('myChart'), {
+        type: 'bar',
+
+        data: {
+            labels: labels,
+
+            datasets: [{
+                label: 'Promedio de votos',
+                data: data,
+                backgroundColor: 'rgba(79, 70, 229, 0.7)',
+                borderColor: '#4f46e5',
+                borderWidth: 2
+            }]
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 10,
+
+                    title: {
+                        display: true,
+                        text: 'Puntaje'
+                    }
+                },
+
+                x: {
+                    ticks: {
+                        maxRotation: 45,
+                        minRotation: 30
+                    }
+                }
+            }
+        }
+    });
+
+    // Dibujamos los demás análisis
+    this.renderGenreChart(movies);
+},
+
+    renderGenreChart(movies) {
+        const container =
+            document.getElementById('genre-chart-container');
+
+        if (!container) {
+            return;
+        }
+
+        const genreCounts = {};
+
+        // Separamos y contamos los géneros
+        movies.forEach(movie => {
+            const genres = (movie.generos || '')
+                .split(',')
+                .map(genre => genre.trim())
+                .filter(genre => genre !== '');
+
+            genres.forEach(genre => {
+                genreCounts[genre] =
+                    (genreCounts[genre] || 0) + 1;
+            });
+        });
+
+        // Ordenamos y conservamos solamente los primeros tres
+        const topGenres = Object
+            .entries(genreCounts)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 3);
+
+        const labels = topGenres.map(element => element[0]);
+        const data = topGenres.map(element => element[1]);
+
+        container.innerHTML = `
+            <canvas id="genreChart"></canvas>
+        `;
+
+        new Chart(document.getElementById('genreChart'), {
             type: 'bar',
+
             data: {
                 labels: labels,
+
                 datasets: [{
-                    label: 'Promedio de Votos',
+                    label: 'Cantidad de películas',
                     data: data,
-                    backgroundColor: 'rgba(79, 70, 229, 0.7)',
-                    borderColor: '#4f46e5',
-                    borderWidth: 2
+
+                    backgroundColor: [
+                        '#4f46e5',
+                        '#06b6d4',
+                        '#10b981'
+                    ],
+
+                    borderRadius: 8,
+                    borderSkipped: false
                 }]
             },
+
             options: {
+                indexAxis: 'y',
                 responsive: true,
                 maintainAspectRatio: false,
+
                 plugins: {
-                    legend: { display: false }
-                },
-                scales: {
-                    y: { 
-                        beginAtZero: true,
-                        title: { display: true, text: 'Puntaje' }
+                    legend: {
+                        display: false
                     },
+
+                    tooltip: {
+                        callbacks: {
+                            label(context) {
+                                const amount = context.raw;
+
+                                return ` ${amount} ${
+                                    amount === 1
+                                        ? 'película'
+                                        : 'películas'
+                                }`;
+                            }
+                        }
+                    }
+                },
+
+                scales: {
                     x: {
-                        ticks: { maxRotation: 45, minRotation: 30 }
+                        beginAtZero: true,
+
+                        ticks: {
+                            stepSize: 1,
+                            precision: 0
+                        },
+
+                        title: {
+                            display: true,
+                            text: 'Cantidad de películas'
+                        }
+                    },
+
+                    y: {
+                        grid: {
+                            display: false
+                        }
                     }
                 }
             }
         });
     },
-
     showDataContainer() {
         document.getElementById('welcome-state').classList.add('hidden');
         document.getElementById('data-container').classList.remove('hidden');

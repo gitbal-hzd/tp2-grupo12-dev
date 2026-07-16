@@ -124,7 +124,7 @@
 
                     <div class="data-grid">
                         
-                        <!-- TABLA: Aqui van los datos de Strapi -->
+                        <!-- TABLA: los datos de Strapi -->
                         <div class="card table-card">
                             <div class="card-header">
                                 <h2>Directorio de Películas</h2>
@@ -136,20 +136,28 @@
                             </div>
                         </div>
                         
-                        <!-- GRAFICO: Contenedor para Chart.js -->
-                        <div class="card chart-card">
-                            <div class="card-header">
-                                <h2>Análisis Visual</h2>
-                            </div>
-                            <div class="card-body chart-body">
-                                <!-- ATENCION INTEGRANTE 3: Instancia tu grafico aca adentro -->
-                                <div id="chart-container" class="chart-placeholder">
-                                    <div class="placeholder-content">
-                                        <i class="ph-duotone ph-chart-bar"></i>
-                                        <p>Gráfico pendiente</p>
-                                        <span>Espacio reservado para el Integrante 3</span>
+                        <!-- GRAFICO: Contenedor -->
+                        <div class="card-body chart-body">
+
+                                <!-- Primer gráfico -->
+                                <section class="analysis-section">
+                                    <h3>Promedio de votos por película</h3>
+
+                                    <div
+                                        id="chart-container"
+                                        class="chart-placeholder">
                                     </div>
-                                </div>
+                                </section>
+
+                                <!-- Segundo gráfico -->
+                                <section class="analysis-section">
+                                    <h3>Top 3 géneros con más películas</h3>
+
+                                    <div
+                                        id="genre-chart-container"
+                                        class="chart-placeholder">
+                                    </div>
+                                </section>                                
                             </div>
                         </div>
                     </div>
