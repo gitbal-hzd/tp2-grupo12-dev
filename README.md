@@ -12,7 +12,7 @@
 
 ### Desarrollo de la aplicación
 
-Se desarrollará una app web que permitirá obtener las 10 películas más populares estrenadas en el año 1999 y guardar sus títulos, sinopsis, géneros, cantidad de votos, y promedio de votos en un manejador de contenidos (Strapi), para su posterior consulta y visualización dinámica en un panel de control.
+El objetivo del trabajo es armar una aplicación web para traer las 10 películas más populares de 1999. Vamos a guardar el título, la sinopsis, los géneros y los votos en Strapi, para después poder ver toda esa información acomodada en nuestra propia página.
 
 ---
 
@@ -65,7 +65,7 @@ A continuación se despliega la lista de tareas que condujeron a la ejecución e
 | Relevamiento y fetch de datos TMDB | Cristian Hrynkiewicz, Rey Lautaro |
 | Configuración y desarrollo del POST a Strapi | Cristian Hrynkiewicz, Leandro Sesin |
 | Creación del Frontend, UI y Layout | Baltazar Martinez |
-| Desarrollo del GET a Strapi y render de la tabla | Baltazar Martinez, Cristian Hrynkiewicz |
+| Desarrollo del GET a Strapi y render de la tabla | Cristian Hrynkiewicz |
 | Desarrollo de visualización y UX | Baltazar Martinez |
 | Documentación del proyecto | Rey Lautaro, Leandro Sesin |
 
@@ -73,7 +73,7 @@ A continuación se despliega la lista de tareas que condujeron a la ejecución e
 
 ### Bosquejo del frontend
 
-Para la interfaz de usuario se diseñó un Dashboard con arquitectura de página única (SPA), respetando los lineamientos de la cátedra. La estructura se divide en:
+Para la parte visual armamos un Dashboard de una sola página (SPA). La pantalla está dividida en:
 1. **Cabecera (Header):** Título obligatorio del TP.
 2. **Menú Lateral (Sidebar):** Navegación principal con botón de carga y visualización de datos.
 3. **Área Principal:** Despliega el directorio de películas de Strapi.
@@ -84,6 +84,6 @@ Para la interfaz de usuario se diseñó un Dashboard con arquitectura de página
 
 ### Pantalla Principal y Visualización de datos
 
-La aplicación inicializa en una pantalla de bienvenida que previene consultas vacías. Al cargar los datos y luego visualizar, el sistema invierte la respuesta de Strapi para presentar siempre los registros más recientes en la parte superior, traduciendo los géneros en tiempo real para mejorar la legibilidad.
+Cuando entramos a la página, arranca en una pantalla de inicio que bloquea la visualización si todavía no se cargaron los datos. Después de traer las películas, la tabla da vuelta la lista para mostrar lo último que se guardó arriba de todo, y pasa los números de los géneros a texto para que se entienda mejor.
 
 ![Boceto 2: Estadísticas y directorio de películas](./boceto2.png)
