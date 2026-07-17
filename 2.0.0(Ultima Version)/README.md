@@ -78,7 +78,7 @@ Para la parte visual armamos un Dashboard de una sola página (SPA). La pantalla
 2. **Menú Lateral (Sidebar):** Navegación principal con botón de carga y visualización de datos.
 3. **Área Principal:** Despliega el directorio de películas de Strapi.
 
-![Boceto 1: Panel de control de bienvenida](./boceto1.png)
+![Boceto 1: Panel de control de bienvenida](./assets/img1.jpeg)
 
 ---
 
@@ -86,4 +86,4 @@ Para la parte visual armamos un Dashboard de una sola página (SPA). La pantalla
 
 Cuando entramos a la página, arranca en una pantalla de inicio que bloquea la visualización si todavía no se cargaron los datos. Después de traer las películas, la tabla da vuelta la lista para mostrar lo último que se guardó arriba de todo, y pasa los números de los géneros a texto para que se entienda mejor.
 
-![Boceto 2: Estadísticas y directorio de películas](./boceto2.png)
+![Boceto 2: Estadísticas y directorio de películas](./assets/img2.jpeg)
