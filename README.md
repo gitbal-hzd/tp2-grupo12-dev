@@ -61,13 +61,14 @@ A continuación se despliega la lista de tareas que condujeron a la ejecución e
 
 | Tarea | Responsable |
 | :--- | :--- |
-| Investigación y creación de cuenta en TMDB | Rey Lautaro, Leandro Sesin |
+| Investigación y creación de cuenta en TMDB | Cristian Hrynkiewicz |
+| Desarrollo del GET a Strapi y render de la tabla | Cristian Hrynkiewicz, Rey Lautaro |
 | Relevamiento y fetch de datos TMDB | Cristian Hrynkiewicz, Rey Lautaro |
 | Configuración y desarrollo del POST a Strapi | Cristian Hrynkiewicz, Leandro Sesin |
+| Creacion de analisis Visual de estadisticas | Leandro Sesin |
 | Creación del Frontend, UI y Layout | Baltazar Martinez |
-| Desarrollo del GET a Strapi y render de la tabla | Cristian Hrynkiewicz |
-| Desarrollo de visualización y UX | Baltazar Martinez |
-| Documentación del proyecto | Rey Lautaro, Leandro Sesin |
+| Desarrollo de visualización y UX | Baltazar Martinez y varios|
+| Documentación del proyecto | TODOS |
 
 ---
 
